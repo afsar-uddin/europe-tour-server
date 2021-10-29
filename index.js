@@ -57,6 +57,15 @@ async function europeTour() {
             res.json(coverageArray);
         });
 
+        // SINGLE POST API
+        app.get('/trip-types/:id', async (req, res) => {
+            const id = req.params.id;
+            // console.log('single user', id);
+            const query = { _id: ObjectId(id) };
+            const singleTrip = await tripTypesCollection.findOne(query);
+            res.send(singleTrip);
+        });
+
     } finally {
         // await client.close();
     }
