@@ -66,6 +66,15 @@ async function europeTour() {
             res.send(singleTrip);
         });
 
+        // POST TRIP
+        app.post('/trip-types', async (req, res) => {
+            const newUser = req.body;
+            const result = await tripTypesCollection.insertOne(newUser);
+            // console.log('got new user', req.body);
+            // console.log('added user', result);
+            res.json(result)
+        });
+
     } finally {
         // await client.close();
     }
