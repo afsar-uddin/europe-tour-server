@@ -30,6 +30,7 @@ async function europeTour() {
         const bannerCollection = database.collection("banner");
         const quotesCollection = database.collection("quotes");
         const coverageCollection = database.collection("coverageArea");
+        const tripTypesCollection = database.collection("tripTypes");
 
         // GET API
         app.get('/banner', async (req, res) => {
@@ -46,6 +47,12 @@ async function europeTour() {
 
         app.get('/coverage-area', async (req, res) => {
             const cursor = coverageCollection.find({});
+            const coverageArray = await cursor.toArray();
+            res.json(coverageArray);
+        });
+
+        app.get('/trip-types', async (req, res) => {
+            const cursor = tripTypesCollection.find({});
             const coverageArray = await cursor.toArray();
             res.json(coverageArray);
         });
