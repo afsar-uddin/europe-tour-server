@@ -28,12 +28,26 @@ async function europeTour() {
 
         const database = client.db('europeTour');
         const bannerCollection = database.collection("banner");
+        const quotesCollection = database.collection("quotes");
+        const coverageCollection = database.collection("coverageArea");
 
         // GET API
         app.get('/banner', async (req, res) => {
             const cursor = bannerCollection.find({});
-            const usersArray = await cursor.toArray();
-            res.send(usersArray);
+            const bannerArray = await cursor.toArray();
+            res.json(bannerArray);
+        });
+
+        app.get('/quotes', async (req, res) => {
+            const cursor = quotesCollection.find({});
+            const quotesArray = await cursor.toArray();
+            res.json(quotesArray);
+        });
+
+        app.get('/coverage-area', async (req, res) => {
+            const cursor = coverageCollection.find({});
+            const coverageArray = await cursor.toArray();
+            res.json(coverageArray);
         });
 
     } finally {
