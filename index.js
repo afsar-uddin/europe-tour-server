@@ -19,7 +19,6 @@ app.use(express.json())
 
 // DB connection
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cmhhb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-console.log(uri)
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -86,6 +85,28 @@ async function europeTour() {
             const trip = req.body;
             const result = await tripCollection.insertOne(trip);
             res.json(result);
+        });
+
+        // TRIPS SINGLE API
+        app.get('/trips/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const findStatus = await tripCollection.findOne(query);
+            res.send(findStatus);
+        });
+
+        // UPDATE API
+        app.put('/trips/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedStatus = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    status: updatedStatus.status,
+                },
+            };
+            const result = await tripCollection.updateOne(filter, updateDoc)
+            res.send(result)
         });
 
         // DELETE API
