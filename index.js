@@ -18,7 +18,8 @@ app.use(cors())
 app.use(express.json())
 
 // DB connection
-const uri = "mongodb+srv://europTour:jOVs9sdKvzAchg2F@cluster0.cmhhb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cmhhb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+console.log(uri)
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -61,7 +62,6 @@ async function europeTour() {
         // SINGLE POST API
         app.get('/trip-types/:id', async (req, res) => {
             const id = req.params.id;
-            // console.log('single user', id);
             const query = { _id: ObjectId(id) };
             const singleTrip = await tripTypesCollection.findOne(query);
             res.send(singleTrip);
