@@ -31,6 +31,7 @@ async function europeTour() {
         const quotesCollection = database.collection("quotes");
         const coverageCollection = database.collection("coverageArea");
         const tripTypesCollection = database.collection("tripTypes");
+        const tripCollection = database.collection("trips");
 
         // GET API
         app.get('/banner', async (req, res) => {
@@ -70,10 +71,32 @@ async function europeTour() {
         app.post('/trip-types', async (req, res) => {
             const newUser = req.body;
             const result = await tripTypesCollection.insertOne(newUser);
-            // console.log('got new user', req.body);
-            // console.log('added user', result);
             res.json(result)
         });
+
+        // GET TRIP API
+        app.get('/trips', async (req, res) => {
+            const cursor = tripCollection.find({});
+            const tripArray = await cursor.toArray();
+            res.send(tripArray);
+        });
+
+        // ADD TRIP API
+        app.post('/trips', async (req, res) => {
+            const trip = req.body;
+            const result = await tripCollection.insertOne(trip);
+            res.json(result);
+        });
+
+        // DELETE API
+        app.delete('/trips/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await tripCollection.deleteOne(query);
+            res.json(result);
+        })
+
+
 
     } finally {
         // await client.close();
