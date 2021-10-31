@@ -100,13 +100,14 @@ async function europeTour() {
             const id = req.params.id;
             const updatedStatus = req.body;
             const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
             const updateDoc = {
                 $set: {
                     status: updatedStatus.status,
                     tripName: updatedStatus.tripName
                 },
             };
-            const result = await tripCollection.updateOne(filter, updateDoc)
+            const result = await tripCollection.updateOne(filter, updateDoc, options)
             res.send(result)
         });
 
