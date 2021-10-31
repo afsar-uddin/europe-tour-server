@@ -130,5 +130,5 @@ app.get('/', (req, res) => {
 
 // WHICH PORT SERVER ON
 app.listen(port, () => {
-    console.log('server running for Europe Tour port ', port)
+    console.log('server for Europe Tour port ', port)
 });
